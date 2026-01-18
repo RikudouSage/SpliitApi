@@ -55,6 +55,7 @@ func allowsNil[T any](value T) bool {
 	if valueType == nil {
 		return true
 	}
+	//nolint:exhaustive // only nil-able kinds should return true here
 	switch valueType.Kind() {
 	case reflect.Ptr, reflect.Map, reflect.Slice, reflect.Interface, reflect.Func, reflect.Chan:
 		return true

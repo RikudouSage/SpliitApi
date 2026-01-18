@@ -1,8 +1,9 @@
 package model
 
 import (
-	"go.chrastecky.dev/spliit-api/spliit/amount"
 	"time"
+
+	"go.chrastecky.dev/spliit-api/spliit/amount"
 
 	"github.com/shopspring/decimal"
 )
@@ -34,7 +35,7 @@ type Expense struct {
 	OriginalCurrency *string            `json:"originalCurrency"`
 	ConversionRate   *decimal.Decimal   `json:"conversionRate"`
 	PaidBy           *Participant       `json:"paidBy"`
-	PaidById         string             `json:"paidById"`
+	PaidByID         string             `json:"paidById"`
 	PaidFor          []*ExpensePaidFor  `json:"paidFor"`
 	GroupID          string             `json:"groupId"`
 	IsReimbursement  bool               `json:"isReimbursement"`
@@ -45,7 +46,7 @@ type Expense struct {
 
 	RecurrenceRule         *RecurrenceRule       `json:"recurrenceRule"`
 	RecurringExpenseLink   *RecurringExpenseLink `json:"recurringExpenseLink"`
-	RecurringExpenseLinkId *string               `json:"recurringExpenseLinkId"`
+	RecurringExpenseLinkID *string               `json:"recurringExpenseLinkId"`
 
 	// list expenses
 	Counts map[string]uint `json:"_count"`

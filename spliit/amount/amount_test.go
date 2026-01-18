@@ -8,10 +8,10 @@ import (
 
 func TestFromDecimalStrictScale(t *testing.T) {
 	cases := []struct {
-		name        string
-		input       decimal.Decimal
-		want        Amount
-		wantErr     bool
+		name    string
+		input   decimal.Decimal
+		want    Amount
+		wantErr bool
 	}{
 		{
 			name:    "exact two decimals",

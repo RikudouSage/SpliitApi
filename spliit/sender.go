@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -46,7 +47,7 @@ func (sender *HTTPSender) SendBatch(ctx context.Context, requests []OutboundRequ
 	input := make(map[string]trpcInputEnvelope, len(requests))
 	for i, req := range requests {
 		endpointNames = append(endpointNames, req.Endpoint)
-		input[fmt.Sprintf("%d", i)] = trpcInputEnvelope{JSON: req.Input}
+		input[strconv.Itoa(i)] = trpcInputEnvelope{JSON: req.Input}
 	}
 
 	inputBytes, err := json.Marshal(input)

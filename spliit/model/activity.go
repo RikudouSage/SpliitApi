@@ -17,8 +17,8 @@ type Activity struct {
 	GroupID       string       `json:"groupId"`
 	Time          time.Time    `json:"time"`
 	ActivityType  ActivityType `json:"activityType"`
-	ParticipantId *string      `json:"participantId"`
+	ParticipantID *string      `json:"participantId"`
 	Expense       *Expense     `json:"expense"`
-	ExpenseId     *string      `json:"expenseId"`
+	ExpenseID     *string      `json:"expenseId"`
 	Data          *string      `json:"data"`
 }

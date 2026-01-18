@@ -1,0 +1,90 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: standard
+  enable:
+    - asciicheck
+    - bodyclose
+    - canonicalheader
+    - containedctx
+    - copyloopvar
+    - decorder
+    - durationcheck
+    - embeddedstructfieldcheck
+    - errcheck
+    - errname
+    - errorlint
+    - exhaustive
+    - exptostd
+    - funcorder
+    - gocheckcompilerdirectives
+    - gocritic
+    - gosec
+    - govet
+    - ineffassign
+    - nilerr
+    - nilnesserr
+    - noctx
+    - nosprintfhostport
+    - perfsprint
+    - prealloc
+    - predeclared
+    - recvcheck
+    - revive
+    - rowserrcheck
+    - sqlclosecheck
+    - staticcheck
+    - unconvert
+    - unused
+
+  settings:
+    gosec:
+      excludes:
+        - G104
+        - G115
+    unused:
+      field-writes-are-uses: false
+    errcheck:
+      exclude-functions:
+        - (io.Closer).Close
+        - (*os.File).Close
+        - (*database/sql.DB).Close
+        - SpanecoCMS/http/helper.DiscardBody
+        - DiscardBody
+    revive:
+      enable-all-rules: false
+      rules:
+        - name: var-naming
+          arguments:
+            - ["HTTP", "JSON"]
+            - ["ID"]
+            - - skip-package-name-checks: true
+    staticcheck:
+      dot-import-whitelist:
+        - SpanecoCMS/helper
+
+formatters:
+  enable:
+    - gofmt
+
+  settings:
+    goimports:
+      local-prefixes:
+        - SpanecoCMS
+
+  exclusions:
+    generated: strict
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+output:
+  formats:
+    text:
+      path: stdout
+      print-linter-name: true
+      print-issued-lines: true
