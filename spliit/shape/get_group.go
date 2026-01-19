@@ -7,5 +7,5 @@ type GetGroupRequest struct {
 }
 
 type GetGroupResponse struct {
-	Group model.Group `json:"group"`
+	Group *model.Group `json:"group"`
 }
