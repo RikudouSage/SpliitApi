@@ -31,6 +31,7 @@ type jsonCallEnvelope struct {
 	Input    json.RawMessage `json:"input"`
 }
 
+//revive:disable-next-line:var-naming
 //export Spliit_NewClient
 func Spliit_NewClient(outHandle *C.uint64_t) C.int {
 	if outHandle == nil {
@@ -45,6 +46,7 @@ func Spliit_NewClient(outHandle *C.uint64_t) C.int {
 	return SpliitSuccess
 }
 
+//revive:disable-next-line:var-naming
 //export Spliit_SendRequests
 func Spliit_SendRequests(clientHandle C.uint64_t, jsonCalls *C.char, outResults **C.SpliitResult, outCount *C.size_t) C.int {
 	if jsonCalls == nil {
@@ -153,6 +155,7 @@ func Spliit_SendRequests(clientHandle C.uint64_t, jsonCalls *C.char, outResults 
 	return SpliitSuccess
 }
 
+//revive:disable-next-line:var-naming
 //export Spliit_FreeResults
 func Spliit_FreeResults(results *C.SpliitResult, count C.size_t) {
 	if results == nil {

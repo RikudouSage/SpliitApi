@@ -66,6 +66,7 @@ func unregisterHandle(id pointerHandle) error {
 	return nil
 }
 
+//revive:disable-next-line:var-naming
 //export Spliit_CloseHandle
 func Spliit_CloseHandle(handle C.uint64_t) C.int {
 	err := unregisterHandle(pointerHandle(handle))

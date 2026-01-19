@@ -85,6 +85,7 @@ func nullPointerError(name string) error {
 	return errors.New(name + " is NULL")
 }
 
+//revive:disable-next-line:var-naming
 //export Spliit_GetLastError
 func Spliit_GetLastError(buf *C.char, bufLen C.size_t) C.size_t {
 	return C.spliit_get_last_error(buf, bufLen)
