@@ -1,5 +1,9 @@
 package main
 
+/*
+#include <stdint.h>
+*/
+import "C"
 import (
 	"errors"
 	"sync"
@@ -42,8 +46,13 @@ func getHandleObj[TType any](id pointerHandle) (TType, error) {
 	return typedObj, nil
 }
 
-func unregisterClient(id pointerHandle) {
+func unregisterHandle(id pointerHandle) {
 	handlesMutex.Lock()
 	defer handlesMutex.Unlock()
 	delete(handles, id)
+}
+
+//export Spliit_CloseHandle
+func Spliit_CloseHandle(handle C.uint64_t) {
+	unregisterHandle(pointerHandle(handle))
 }
