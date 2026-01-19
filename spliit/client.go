@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+
+	"go.chrastecky.dev/spliit-api/cfg"
 )
 
 type Client interface {
@@ -20,7 +22,7 @@ func NewClient() Client {
 
 func NewClientWithSender(sender Sender) Client {
 	if sender == nil {
-		sender = NewHTTPSender("https://spliit.app/api/trpc", http.DefaultClient)
+		sender = NewHTTPSender(cfg.DefaultApiUrl, http.DefaultClient)
 	}
 
 	return &client{sender: sender}
