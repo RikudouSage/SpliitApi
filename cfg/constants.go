@@ -1,3 +1,3 @@
 package cfg
 
-const DefaultApiUrl = "https://spliit.app/api/trpc"
+const DefaultApiURL = "https://spliit.app/api/trpc"

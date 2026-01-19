@@ -15,15 +15,15 @@ type pointerHandle uint64
 var (
 	handlesMutex sync.Mutex
 	handles                    = make(map[pointerHandle]any)
-	nextHandleId pointerHandle = 1
+	nextHandleID pointerHandle = 1
 )
 
 func registerHandle[TType any](client TType) pointerHandle {
 	handlesMutex.Lock()
 	defer handlesMutex.Unlock()
 
-	id := nextHandleId
-	nextHandleId++
+	id := nextHandleID
+	nextHandleID++
 	handles[id] = client
 	return id
 }

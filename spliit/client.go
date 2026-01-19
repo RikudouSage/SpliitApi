@@ -22,7 +22,7 @@ func NewClient() Client {
 
 func NewClientWithSender(sender Sender) Client {
 	if sender == nil {
-		sender = NewHTTPSender(cfg.DefaultApiUrl, http.DefaultClient)
+		sender = NewHTTPSender(cfg.DefaultApiURL, http.DefaultClient)
 	}
 
 	return &client{sender: sender}
