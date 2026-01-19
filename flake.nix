@@ -7,43 +7,57 @@
 
   outputs = { self, nixpkgs }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
-      cc386   = pkgs.pkgsCross.gnu32.stdenv.cc;
-      ccArmv7 = pkgs.pkgsCross.armv7l-hf-multiplatform.stdenv.cc;
-      ccArm64 = pkgs.pkgsCross.aarch64-multiplatform.stdenv.cc;
+      forAllSystems = f:
+        builtins.listToAttrs (map (system: {
+          name = system;
+          value = f system;
+        }) systems);
     in {
-      devShells.${system}.default = pkgs.mkShell {
-        buildInputs = [
-          pkgs.go
-          pkgs.golangci-lint
-          pkgs.revive
+      devShells = forAllSystems (system:
+        let
+          pkgs = import nixpkgs { inherit system; };
 
-          cc386
-          ccArmv7
-          ccArm64
-        ];
+          cc386   = pkgs.pkgsCross.gnu32.stdenv.cc;
+          ccArmv7 = pkgs.pkgsCross.armv7l-hf-multiplatform.stdenv.cc;
+          ccArm64 = pkgs.pkgsCross.aarch64-multiplatform.stdenv.cc;
+        in {
+          default = pkgs.mkShell {
+            buildInputs = [
+              pkgs.go
+              pkgs.golangci-lint
+              pkgs.revive
 
-        shellHook = ''
-          unset GOROOT
+              cc386
+              ccArmv7
+              ccArm64
+            ];
 
-          export CC_386=${cc386.targetPrefix}cc
-          export CC_ARMV7=${ccArmv7.targetPrefix}cc
-          export CC_ARM64=${ccArm64.targetPrefix}cc
+            shellHook = ''
+              unset GOROOT
 
-          echo "Using cross compilers:"
-          echo "  CC_386   = $CC_386"
-          echo "  CC_ARMV7 = $CC_ARMV7"
-          echo "  CC_ARM64 = $CC_ARM64"
+              export CC_386=${cc386.targetPrefix}cc
+              export CC_ARMV7=${ccArmv7.targetPrefix}cc
+              export CC_ARM64=${ccArm64.targetPrefix}cc
 
-          echo ""
+              echo "Using cross compilers:"
+              echo "  CC_386   = $CC_386"
+              echo "  CC_ARMV7 = $CC_ARMV7"
+              echo "  CC_ARM64 = $CC_ARM64"
 
-          echo "Using go config:"
-          echo "  GOROOT   = $(go env GOROOT)"
-          echo "  GOCACHE  = $(go env GOCACHE)"
-          echo "  GOPATH   = $(go env GOPATH)"
-        '';
-      };
+              echo ""
+
+              echo "Using go config:"
+              echo "  GOROOT   = $(go env GOROOT)"
+              echo "  GOCACHE  = $(go env GOCACHE)"
+              echo "  GOPATH   = $(go env GOPATH)"
+            '';
+          };
+        }
+      );
     };
 }
