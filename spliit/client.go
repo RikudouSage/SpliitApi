@@ -40,7 +40,7 @@ func (receiver *client) SendRequests(ctx context.Context, calls ...Call) ([]Call
 			return nil, err
 		}
 		outbound = append(outbound, OutboundRequest{
-			Endpoint: call.endpointName(),
+			Endpoint: call.EndpointName(),
 			Input:    payload,
 			Mutates:  call.mutates(),
 		})
@@ -56,8 +56,8 @@ func (receiver *client) SendRequests(ctx context.Context, calls ...Call) ([]Call
 
 	for i, resp := range inbound {
 		call := calls[i]
-		if resp.Endpoint != call.endpointName() {
-			return nil, fmt.Errorf("response[%d] endpoint mismatch: got %q, want %q", i, resp.Endpoint, call.endpointName())
+		if resp.Endpoint != call.EndpointName() {
+			return nil, fmt.Errorf("response[%d] endpoint mismatch: got %q, want %q", i, resp.Endpoint, call.EndpointName())
 		}
 		if err := call.applyResponse(resp); err != nil {
 			call.setError(err)
