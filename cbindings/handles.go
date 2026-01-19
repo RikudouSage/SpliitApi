@@ -6,6 +6,7 @@ package main
 import "C"
 import (
 	"errors"
+	"io"
 	"sync"
 )
 
@@ -46,10 +47,23 @@ func getHandleObj[TType any](id pointerHandle) (TType, error) {
 	return typedObj, nil
 }
 
-func unregisterHandle(id pointerHandle) {
+func unregisterHandle(id pointerHandle) error {
 	handlesMutex.Lock()
-	defer handlesMutex.Unlock()
+
+	obj, ok := handles[id]
+	if !ok {
+		handlesMutex.Unlock()
+		return errors.New("no object registered for this id")
+	}
+
 	delete(handles, id)
+	handlesMutex.Unlock()
+
+	if closer, ok := obj.(io.Closer); ok {
+		closer.Close()
+	}
+
+	return nil
 }
 
 //export Spliit_CloseHandle
