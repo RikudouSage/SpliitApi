@@ -67,6 +67,13 @@ func unregisterHandle(id pointerHandle) error {
 }
 
 //export Spliit_CloseHandle
-func Spliit_CloseHandle(handle C.uint64_t) {
-	unregisterHandle(pointerHandle(handle))
+func Spliit_CloseHandle(handle C.uint64_t) C.int {
+	err := unregisterHandle(pointerHandle(handle))
+	if err != nil {
+		setLastError(err)
+		return SpliitError
+	}
+
+	clearLastError()
+	return SpliitSuccess
 }
