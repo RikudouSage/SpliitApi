@@ -3,9 +3,10 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs";
+    nixpkgs-legacy.url = "github:NixOS/nixpkgs/28f1c45e290ab247bcc8011f81d62bf22ba8c7b6";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, nixpkgs-legacy }:
     let
       systems = [
         "x86_64-linux"
@@ -21,10 +22,11 @@
       devShells = forAllSystems (system:
         let
           pkgs = import nixpkgs { inherit system; };
+          legacyPkgs = import nixpkgs-legacy { inherit system; };
 
-          cc386   = pkgs.pkgsCross.gnu32.stdenv.cc;
-          ccArmv7 = pkgs.pkgsCross.armv7l-hf-multiplatform.stdenv.cc;
-          ccArm64 = pkgs.pkgsCross.aarch64-multiplatform.stdenv.cc;
+          cc386   = legacyPkgs.pkgsCross.gnu32.stdenv.cc;
+          ccArmv7 = legacyPkgs.pkgsCross.armv7l-hf-multiplatform.stdenv.cc;
+          ccArm64 = legacyPkgs.pkgsCross.aarch64-multiplatform.stdenv.cc;
         in {
           default = pkgs.mkShell {
             buildInputs = [
