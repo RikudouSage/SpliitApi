@@ -31,6 +31,7 @@
               pkgs.go
               pkgs.golangci-lint
               pkgs.revive
+              pkgs.gnumake
 
               cc386
               ccArmv7
