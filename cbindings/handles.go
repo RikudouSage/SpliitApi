@@ -3,8 +3,6 @@ package main
 import (
 	"errors"
 	"sync"
-
-	"go.chrastecky.dev/spliit-api/spliit"
 )
 
 type pointerHandle uint64
@@ -25,20 +23,23 @@ func registerHandle[TType any](client TType) pointerHandle {
 	return id
 }
 
-func getClient(id pointerHandle) (spliit.Client, error) {
+func getHandleObj[TType any](id pointerHandle) (TType, error) {
 	handlesMutex.Lock()
 	defer handlesMutex.Unlock()
 
-	obj, exists := handles[id]
-	if !exists {
-		return nil, errors.New("no client registered for this id")
+	var zero TType
+
+	obj, ok := handles[id]
+	if !ok {
+		return zero, errors.New("no value registered for this id")
 	}
 
-	if client, ok := obj.(spliit.Client); ok {
-		return client, nil
+	typedObj, ok := obj.(TType)
+	if !ok {
+		return zero, errors.New("handle type mismatch")
 	}
 
-	return nil, errors.New("no client registered for this id")
+	return typedObj, nil
 }
 
 func unregisterClient(id pointerHandle) {
