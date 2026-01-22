@@ -166,6 +166,7 @@ The endpoints describe the expected inputs and outputs:
 - [ListCategories](spliit/endpoint/list_categories.go)
 - [ListExpenses](spliit/endpoint/list_expenses.go)
 - [ListGroups](spliit/endpoint/list_groups.go)
+- [UpdateExpense](spliit/endpoint/update_expense.go)
 - [UpdateGroup](spliit/endpoint/update_group.go)
 
 ## C bindings
@@ -249,4 +250,5 @@ The endpoint names are taken directly from the endpoint structs:
 - [categories.list](spliit/endpoint/list_categories.go)
 - [groups.expenses.list](spliit/endpoint/list_expenses.go)
 - [groups.list](spliit/endpoint/list_groups.go)
+- [groups.expenses.update](spliit/endpoint/update_expense.go)
 - [groups.update](spliit/endpoint/update_group.go)

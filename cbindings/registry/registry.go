@@ -40,4 +40,5 @@ func init() {
 	registerDispatcher(&endpoint.ListExpenses{})
 	registerDispatcher(&endpoint.ListGroups{})
 	registerDispatcher(&endpoint.UpdateGroup{})
+	registerDispatcher(&endpoint.UpdateExpense{})
 }
