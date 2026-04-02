@@ -8,12 +8,14 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+// ModifyExpenseFormPaidFor describes one participant share in an expense form.
 type ModifyExpenseFormPaidFor struct {
 	Participant    string         `json:"participant"`
 	OriginalAmount *amount.Amount `json:"originalAmount,omitempty"`
 	Shares         int            `json:"shares"`
 }
 
+// ModifyExpenseFormDocument describes an uploaded document attached to an expense.
 type ModifyExpenseFormDocument struct {
 	ID     string `json:"id"`
 	URL    string `json:"url"`
@@ -21,6 +23,7 @@ type ModifyExpenseFormDocument struct {
 	Height uint   `json:"height"`
 }
 
+// ModifyExpenseForm contains editable expense fields.
 type ModifyExpenseForm struct {
 	ExpenseDate                 time.Time                   `json:"expenseDate"`
 	Title                       string                      `json:"title"`
@@ -39,12 +42,14 @@ type ModifyExpenseForm struct {
 	RecurrenceRule              model.RecurrenceRule        `json:"recurrenceRule"`
 }
 
+// CreateExpenseRequest is the input for the create expense endpoint.
 type CreateExpenseRequest struct {
 	GroupID       string            `json:"groupId"`
 	FormValues    ModifyExpenseForm `json:"expenseFormValues"`
 	ParticipantID *string           `json:"participantId,omitempty"`
 }
 
+// ApplyDefaults applies default split and recurrence values expected by the API.
 func (receiver *CreateExpenseRequest) ApplyDefaults() {
 	if receiver.FormValues.SplitMode == "" {
 		receiver.FormValues.SplitMode = model.SplitModeEvenly
@@ -54,6 +59,7 @@ func (receiver *CreateExpenseRequest) ApplyDefaults() {
 	}
 }
 
+// CreateExpenseResponse contains the identifier of the created expense.
 type CreateExpenseResponse struct {
 	ExpenseID string `json:"expenseId"`
 }

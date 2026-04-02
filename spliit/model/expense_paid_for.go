@@ -1,5 +1,6 @@
 package model
 
+// ExpensePaidFor links an expense to a participant allocation.
 type ExpensePaidFor struct {
 	Expense       *Expense     `json:"expense"`
 	Participant   *Participant `json:"participant"`

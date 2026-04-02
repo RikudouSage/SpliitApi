@@ -12,7 +12,9 @@ import (
 	"strings"
 )
 
+// Sender executes a batch of outbound requests.
 type Sender interface {
+	// SendBatch sends requests and returns responses in the same order.
 	SendBatch(ctx context.Context, requests []OutboundRequest) ([]InboundResponse, error)
 }
 
@@ -31,6 +33,7 @@ func NewHTTPSender(baseURL string, httpClient *http.Client) *HTTPSender {
 	}
 }
 
+// SendBatch sends requests to the configured HTTP batch endpoint.
 func (sender *HTTPSender) SendBatch(ctx context.Context, requests []OutboundRequest) ([]InboundResponse, error) {
 	if len(requests) == 0 {
 		return nil, nil

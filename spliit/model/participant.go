@@ -1,5 +1,6 @@
 package model
 
+// Participant represents a member of a group.
 type Participant struct {
 	ID              string            `json:"id"`
 	Name            string            `json:"name"`

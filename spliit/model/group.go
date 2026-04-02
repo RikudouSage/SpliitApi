@@ -2,6 +2,7 @@ package model
 
 import "time"
 
+// Group represents a Spliit group.
 type Group struct {
 	ID           string         `json:"id"`
 	Name         string         `json:"name"`

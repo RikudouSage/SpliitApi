@@ -2,6 +2,7 @@ package shape
 
 import "go.chrastecky.dev/spliit-api/spliit/model"
 
+// UpdateExpenseRequest is the input for the update expense endpoint.
 type UpdateExpenseRequest struct {
 	ExpenseID     string            `json:"expenseId"`
 	GroupID       string            `json:"groupId"`
@@ -9,7 +10,7 @@ type UpdateExpenseRequest struct {
 	ParticipantID *string           `json:"participantId,omitempty"`
 }
 
-// todo consolidate
+// ApplyDefaults applies default split and recurrence values expected by the API.
 func (receiver *UpdateExpenseRequest) ApplyDefaults() {
 	if receiver.FormValues.SplitMode == "" {
 		receiver.FormValues.SplitMode = model.SplitModeEvenly
@@ -19,4 +20,5 @@ func (receiver *UpdateExpenseRequest) ApplyDefaults() {
 	}
 }
 
+// UpdateExpenseResponse is the result returned after updating an expense.
 type UpdateExpenseResponse CreateExpenseResponse

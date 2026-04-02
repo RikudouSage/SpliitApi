@@ -1,5 +1,6 @@
 package model
 
+// Category represents an expense category.
 type Category struct {
 	ID       int        `json:"id"`
 	Grouping string     `json:"grouping"`

@@ -10,6 +10,7 @@ import (
 
 var registry = make(map[string]JsonDispatcher)
 
+// JsonDispatcher builds a typed Spliit call from raw JSON input.
 type JsonDispatcher func(ctx context.Context, raw json.RawMessage) spliit.Call
 
 func registerDispatcher[TIn any, TOut any](endpoint endpoint.Endpoint[TIn, TOut]) {
@@ -21,6 +22,7 @@ func registerDispatcher[TIn any, TOut any](endpoint endpoint.Endpoint[TIn, TOut]
 	registry[name] = dispatcher
 }
 
+// FindByName returns the dispatcher registered for name.
 func FindByName(name string) (JsonDispatcher, bool) {
 	dispatcher, ok := registry[name]
 	return dispatcher, ok

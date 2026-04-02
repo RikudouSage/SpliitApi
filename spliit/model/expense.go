@@ -8,21 +8,33 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+// SplitMode describes how an expense is split between participants.
 type SplitMode string
+
+// RecurrenceRule describes the repetition schedule of an expense.
 type RecurrenceRule string
 
 const (
-	SplitModeEvenly        SplitMode = "EVENLY"
-	SplitModeByShares      SplitMode = "BY_SHARES"
+	// SplitModeEvenly splits the expense equally between participants.
+	SplitModeEvenly SplitMode = "EVENLY"
+	// SplitModeByShares splits the expense according to share counts.
+	SplitModeByShares SplitMode = "BY_SHARES"
+	// SplitModeByPercentages splits the expense according to percentages.
 	SplitModeByPercentages SplitMode = "BY_PERCENTAGES"
-	SplitModeByAmount      SplitMode = "BY_AMOUNT"
+	// SplitModeByAmount splits the expense according to explicit amounts.
+	SplitModeByAmount SplitMode = "BY_AMOUNT"
 
-	RecurrenceRuleNone    RecurrenceRule = "NONE"
-	RecurrenceRuleDaily   RecurrenceRule = "DAILY"
-	RecurrenceRuleWeekly  RecurrenceRule = "WEEKLY"
+	// RecurrenceRuleNone marks a non-recurring expense.
+	RecurrenceRuleNone RecurrenceRule = "NONE"
+	// RecurrenceRuleDaily marks a daily recurring expense.
+	RecurrenceRuleDaily RecurrenceRule = "DAILY"
+	// RecurrenceRuleWeekly marks a weekly recurring expense.
+	RecurrenceRuleWeekly RecurrenceRule = "WEEKLY"
+	// RecurrenceRuleMonthly marks a monthly recurring expense.
 	RecurrenceRuleMonthly RecurrenceRule = "MONTHLY"
 )
 
+// Expense represents an expense stored in a Spliit group.
 type Expense struct {
 	ID               string             `json:"id"`
 	Group            *Group             `json:"group"`

@@ -31,6 +31,8 @@ type jsonCallEnvelope struct {
 	Input    json.RawMessage `json:"input"`
 }
 
+// Spliit_NewClient creates a new client handle for use from C.
+//
 //revive:disable-next-line:var-naming
 //export Spliit_NewClient
 func Spliit_NewClient(outHandle *C.uint64_t) C.int {
@@ -46,6 +48,8 @@ func Spliit_NewClient(outHandle *C.uint64_t) C.int {
 	return SpliitSuccess
 }
 
+// Spliit_SendRequests sends a JSON array of calls using a previously created client handle.
+//
 //revive:disable-next-line:var-naming
 //export Spliit_SendRequests
 func Spliit_SendRequests(clientHandle C.uint64_t, jsonCalls *C.char, outResults **C.SpliitResult, outCount *C.size_t) C.int {
@@ -155,6 +159,8 @@ func Spliit_SendRequests(clientHandle C.uint64_t, jsonCalls *C.char, outResults 
 	return SpliitSuccess
 }
 
+// Spliit_FreeResults frees result memory allocated by Spliit_SendRequests.
+//
 //revive:disable-next-line:var-naming
 //export Spliit_FreeResults
 func Spliit_FreeResults(results *C.SpliitResult, count C.size_t) {

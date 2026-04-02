@@ -66,6 +66,8 @@ func unregisterHandle(id pointerHandle) error {
 	return nil
 }
 
+// Spliit_CloseHandle releases a handle previously returned by the C API.
+//
 //revive:disable-next-line:var-naming
 //export Spliit_CloseHandle
 func Spliit_CloseHandle(handle C.uint64_t) C.int {

@@ -85,6 +85,8 @@ func nullPointerError(name string) error {
 	return errors.New(name + " is NULL")
 }
 
+// Spliit_GetLastError copies the thread-local last error string into buf.
+//
 //revive:disable-next-line:var-naming
 //export Spliit_GetLastError
 func Spliit_GetLastError(buf *C.char, bufLen C.size_t) C.size_t {

@@ -8,7 +8,10 @@ import (
 	"go.chrastecky.dev/spliit-api/cfg"
 )
 
+// Client sends batches of Spliit calls.
 type Client interface {
+	// SendRequests sends one or more calls in a single batch request.
+	// The returned slice contains the same call objects passed in calls, updated in place with results and per-call errors.
 	SendRequests(ctx context.Context, calls ...Call) ([]Call, error)
 }
 
@@ -16,10 +19,13 @@ type client struct {
 	sender Sender
 }
 
+// NewClient constructs a client that uses the default HTTPS sender.
 func NewClient() Client {
 	return NewClientWithSender(nil)
 }
 
+// NewClientWithSender constructs a client that uses sender.
+// If sender is nil, a default HTTPS sender is created.
 func NewClientWithSender(sender Sender) Client {
 	if sender == nil {
 		sender = NewHTTPSender(cfg.DefaultApiURL, http.DefaultClient)
@@ -28,6 +34,8 @@ func NewClientWithSender(sender Sender) Client {
 	return &client{sender: sender}
 }
 
+// SendRequests sends calls and attaches each response to the matching call.
+// The returned slice contains the same call objects passed in calls, updated in place with results and per-call errors.
 func (receiver *client) SendRequests(ctx context.Context, calls ...Call) ([]Call, error) {
 	if len(calls) == 0 {
 		return nil, nil

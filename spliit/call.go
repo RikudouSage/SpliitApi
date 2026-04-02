@@ -18,12 +18,17 @@ type Call interface {
 
 // OutputCall exposes only the output type for easier type assertions.
 type OutputCall[TOutput any] interface {
+	// Output returns the decoded response value.
 	Output() TOutput
+	// ErrValue returns the per-call error captured after request execution.
 	ErrValue() error
 }
 
+// RawResultCall exposes a JSON-serializable result value.
 type RawResultCall interface {
+	// RawJson marshals the decoded result back to JSON.
 	RawJson() (string, error)
+	// ErrValue returns the per-call error captured after request execution.
 	ErrValue() error
 }
 
@@ -44,6 +49,7 @@ func NewCallWithRequest[TInput any, TOutput any](req Request[TInput, TOutput]) *
 	return &TypedCall[TInput, TOutput]{Request: req}
 }
 
+// EndpointName returns the endpoint name of the wrapped request.
 func (call *TypedCall[TInput, TOutput]) EndpointName() string {
 	return call.Request.Endpoint.Name()
 }
@@ -52,10 +58,12 @@ func (call *TypedCall[TInput, TOutput]) mutates() bool {
 	return call.Request.Endpoint.Mutates()
 }
 
+// Output returns the decoded result.
 func (call *TypedCall[TInput, TOutput]) Output() TOutput {
 	return call.Result
 }
 
+// ErrValue returns the per-call error, if any.
 func (call *TypedCall[TInput, TOutput]) ErrValue() error {
 	return call.Err
 }
@@ -88,6 +96,7 @@ func (call *TypedCall[TInput, TOutput]) applyResponse(resp InboundResponse) erro
 	return nil
 }
 
+// RawJson marshals the decoded result to JSON.
 func (call *TypedCall[TInput, TOutput]) RawJson() (string, error) {
 	raw, err := json.Marshal(call.Result)
 	if err != nil {
