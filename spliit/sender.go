@@ -213,14 +213,14 @@ type trpcResponseErrorPayload struct {
 	Data    json.RawMessage `json:"data,omitempty"`
 }
 
-func (err *trpcResponseError) payload() trpcResponseErrorPayload {
-	if err.JSON != nil {
-		return *err.JSON
+func (receiver *trpcResponseError) payload() trpcResponseErrorPayload {
+	if receiver.JSON != nil {
+		return *receiver.JSON
 	}
 
 	return trpcResponseErrorPayload{
-		Message: err.Message,
-		Code:    err.Code,
-		Data:    err.Data,
+		Message: receiver.Message,
+		Code:    receiver.Code,
+		Data:    receiver.Data,
 	}
 }
