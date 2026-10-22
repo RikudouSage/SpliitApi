@@ -33,7 +33,7 @@ func (req Request[TInput, TOutput]) ValidateInput() (TInput, error) {
 
 // DecodeOutput validates and converts the output to the endpoint's output type.
 func (req Request[TInput, TOutput]) DecodeOutput(data json.RawMessage) (TOutput, error) {
-	return decodeStrict[TOutput](data)
+	return decodeOutput[TOutput](data)
 }
 
 func applyDefaults[T any](value *T) {

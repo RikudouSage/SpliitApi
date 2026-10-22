@@ -54,12 +54,33 @@ func (receiver *client) SendRequests(ctx context.Context, calls ...Call) ([]Call
 		})
 	}
 
-	inbound, err := receiver.sender.SendBatch(ctx, outbound)
-	if err != nil {
-		return nil, err
-	}
-	if len(inbound) != len(calls) {
-		return nil, fmt.Errorf("response count mismatch: got %d, want %d", len(inbound), len(calls))
+	inbound := make([]InboundResponse, len(calls))
+	for _, mutates := range []bool{false, true} {
+		indices := make([]int, 0, len(outbound))
+		batch := make([]OutboundRequest, 0, len(outbound))
+		for i, request := range outbound {
+			if request.Mutates == mutates {
+				indices = append(indices, i)
+				batch = append(batch, request)
+			}
+		}
+
+		if len(batch) == 0 {
+			continue
+		}
+
+		responses, err := receiver.sender.SendBatch(ctx, batch)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(responses) != len(batch) {
+			return nil, fmt.Errorf("response count mismatch: got %d, want %d", len(responses), len(batch))
+		}
+
+		for i, response := range responses {
+			inbound[indices[i]] = response
+		}
 	}
 
 	for i, resp := range inbound {
