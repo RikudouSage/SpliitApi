@@ -19,8 +19,12 @@ const (
 	SplitModeEvenly SplitMode = "EVENLY"
 	// SplitModeByShares splits the expense according to share counts.
 	SplitModeByShares SplitMode = "BY_SHARES"
-	// SplitModeByPercentages splits the expense according to percentages.
-	SplitModeByPercentages SplitMode = "BY_PERCENTAGES"
+	// SplitModeByPercentage splits the expense according to percentages.
+	SplitModeByPercentage SplitMode = "BY_PERCENTAGE"
+	// SplitModeByPercentages is retained as a source-compatible alias.
+	//
+	// Deprecated: use SplitModeByPercentage.
+	SplitModeByPercentages = SplitModeByPercentage
 	// SplitModeByAmount splits the expense according to explicit amounts.
 	SplitModeByAmount SplitMode = "BY_AMOUNT"
 

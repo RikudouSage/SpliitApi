@@ -13,6 +13,7 @@ type Group struct {
 	Expenses     []*Expense     `json:"expenses"`
 	Activities   []*Activity    `json:"activities"`
 	CreatedAt    time.Time      `json:"createdAt"`
+	DeleteAt     *time.Time     `json:"deleteAt"`
 
 	// list groups endpoint
 	Counts map[string]uint `json:"_count"`

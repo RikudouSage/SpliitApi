@@ -148,10 +148,11 @@ func decodeBatchResponse(body []byte, requests []OutboundRequest) ([]InboundResp
 	for i, env := range envelopes {
 		resp := InboundResponse{Endpoint: requests[i].Endpoint}
 		if env.Error != nil {
+			err := env.Error.payload()
 			resp.Error = &RemoteError{
-				Code:    formatErrorCode(env.Error.Code),
-				Message: env.Error.Message,
-				Data:    env.Error.Data,
+				Code:    formatErrorCode(err.Code),
+				Message: err.Message,
+				Data:    err.Data,
 			}
 			responses = append(responses, resp)
 			continue
@@ -198,7 +199,28 @@ type trpcResponseData struct {
 }
 
 type trpcResponseError struct {
+	// tRPC v11 places the actual error payload under "json". Keep the direct
+	// fields as well for compatibility with older servers.
+	JSON    *trpcResponseErrorPayload `json:"json,omitempty"`
+	Message string                    `json:"message"`
+	Code    json.RawMessage           `json:"code"`
+	Data    json.RawMessage           `json:"data,omitempty"`
+}
+
+type trpcResponseErrorPayload struct {
 	Message string          `json:"message"`
 	Code    json.RawMessage `json:"code"`
 	Data    json.RawMessage `json:"data,omitempty"`
+}
+
+func (err *trpcResponseError) payload() trpcResponseErrorPayload {
+	if err.JSON != nil {
+		return *err.JSON
+	}
+
+	return trpcResponseErrorPayload{
+		Message: err.Message,
+		Code:    err.Code,
+		Data:    err.Data,
+	}
 }

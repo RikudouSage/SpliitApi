@@ -37,6 +37,31 @@ func decodeStrict[T any](input any) (T, error) {
 	return zero, nil
 }
 
+// decodeOutput decodes an API response while allowing fields added by newer
+// Spliit servers. Input validation remains strict; output compatibility must
+// be forward-compatible because the upstream API is not versioned.
+func decodeOutput[T any](input any) (T, error) {
+	var zero T
+	if input == nil {
+		if allowsNil(zero) {
+			return zero, nil
+		}
+		return zero, errors.New("output is nil")
+	}
+	if value, ok := input.(T); ok {
+		return value, nil
+	}
+
+	data, err := toJSONBytes(input)
+	if err != nil {
+		return zero, err
+	}
+	if err := json.Unmarshal(data, &zero); err != nil {
+		return zero, err
+	}
+	return zero, nil
+}
+
 func toJSONBytes(input any) ([]byte, error) {
 	switch value := input.(type) {
 	case json.RawMessage:

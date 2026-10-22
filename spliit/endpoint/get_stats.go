@@ -2,12 +2,12 @@ package endpoint
 
 import "go.chrastecky.dev/spliit-api/spliit/shape"
 
-// GetStats describes the groups.stats.get endpoint.
+// GetStats describes the groups.stats.overview endpoint.
 type GetStats struct{}
 
 // Name returns the remote endpoint name.
 func (receiver *GetStats) Name() string {
-	return "groups.stats.get"
+	return "groups.stats.overview"
 }
 
 // InputShape returns the request DTO shape for the endpoint.
